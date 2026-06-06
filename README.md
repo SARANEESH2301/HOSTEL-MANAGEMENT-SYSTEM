@@ -11,18 +11,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Student Model
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     reg_no = db.Column(db.String(20), unique=True, nullable=False)
     room_no = db.Column(db.String(10), nullable=False)
 
-# Create Database
 with app.app_context():
     db.create_all()
 
-# Add Student
 @app.route('/students', methods=['POST'])
 def add_student():
     data = request.json
@@ -38,7 +35,6 @@ def add_student():
 
     return jsonify({"message": "Student added successfully"}), 201
 
-# Get All Students
 @app.route('/students', methods=['GET'])
 def get_students():
     students = Student.query.all()
@@ -53,7 +49,5 @@ def get_students():
         })
 
     return jsonify(result)
-
-# Run Application
 if __name__ == '__main__':
     app.run(debug=True)
